@@ -209,6 +209,8 @@ pub struct TracingOptions {
     ///
     pub overwrites: Overwrites,
 
+    pub sequence_as_large_list: bool,
+
     /// Internal field to improve error messages for the different tracing
     /// functions
     pub(crate) tracing_mode: TracingMode,
@@ -225,6 +227,7 @@ impl Default for TracingOptions {
             from_type_budget: 100,
             enums_without_data_as_strings: false,
             overwrites: Overwrites::default(),
+            sequence_as_large_list: true,
             tracing_mode: TracingMode::Unknown,
         }
     }
@@ -244,6 +247,12 @@ impl TracingOptions {
     /// Set [`map_as_struct`](#structfield.map_as_struct)
     pub fn map_as_struct(mut self, value: bool) -> Self {
         self.map_as_struct = value;
+        self
+    }
+
+    /// Set [`map_as_struct`](#structfield.map_as_struct)
+    pub fn sequence_as_large_list(mut self, value: bool) -> Self {
+        self.sequence_as_large_list = value;
         self
     }
 

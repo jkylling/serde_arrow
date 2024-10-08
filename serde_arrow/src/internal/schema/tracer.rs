@@ -650,11 +650,20 @@ impl ListTracer {
     }
 
     pub fn get_type(&self) -> Option<&GenericDataType> {
-        Some(&GenericDataType::LargeList)
+        if self.options.sequence_as_large_list {
+            Some(&GenericDataType::LargeList)
+        } else {
+            Some(&GenericDataType::List)
+        }
     }
 
     pub fn to_field(&self) -> Result<GenericField> {
-        let mut field = GenericField::new(&self.name, GenericDataType::LargeList, self.nullable);
+        let data_type = if self.options.sequence_as_large_list {
+            GenericDataType::LargeList
+        } else {
+            GenericDataType::List
+        };
+        let mut field = GenericField::new(&self.name, data_type, self.nullable);
         field.children.push(self.item_tracer.to_field()?);
 
         Ok(field)
